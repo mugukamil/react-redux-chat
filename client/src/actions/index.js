@@ -1,12 +1,20 @@
 import constants from "../constants";
 
-export const connectedNewUser = (userName, userId) => ({
+export const connectedNewUser = ({ userName, userID }) => ({
   type: constants.CONNECTED_NEW_USER,
   userName,
-  userId
+  userID
 });
 
-export const disconnectedUser = userId => ({
+export const disconnectedUser = ({ userID }) => ({
   type: constants.DISCONNECTED_USER,
-  userId
+  userID
+});
+
+export const newMessage = ({ author, text, time, color }) => ({
+  type: constants.NEW_MESSAGE,
+  author,
+  text,
+  time,
+  color
 });

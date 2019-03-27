@@ -4,22 +4,24 @@ import ws from "../util/ws";
 export default Child =>
   class AuthHOC extends React.Component {
     auth() {
-      if (localStorage.getItem("auth")) return true;
-      let name = prompt("Enter your name");
-      if (!name || !name.trim().length) {
-        return false;
+      let userName = localStorage.getItem("auth");
+      if (!userName) {
+        userName = prompt("Enter your name");
+        if (!userName || !userName.trim().length) {
+          return false;
+        }
       }
 
-      localStorage.setItem("auth", name);
-      ws.emit(name);
+      localStorage.setItem("auth", userName);
+      ws.emit(userName);
 
-      return name;
+      return userName;
     }
 
     noName() {
       return (
         <div>
-          You didn't enter the name{" "}
+          You didn't enter the name
           <button onClick={() => window.location.reload()}>Try again?</button>
         </div>
       );

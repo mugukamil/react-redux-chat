@@ -6,7 +6,7 @@ var express = require("express"),
 var app = express();
 var server = http.createServer(app);
 var WebSocketServer = require("ws").Server;
-var wss = new WebSocketServer({ server: server });
+var wss = new WebSocketServer({ server });
 var colors = ["red", "green", "blue", "magenta", "purple", "plum", "orange"];
 colors.sort(function(a, b) {
   return Math.random() > 0.5;
@@ -22,29 +22,26 @@ wss.on("connection", function(ws) {
       userName = msg;
       userColor = colors.shift();
 
-      for (var i = 0; i < clients.length; i++) {
-        clients[i].send(
+      clients.forEach(c =>
+        c.send(
           JSON.stringify({
             type: "connected_new_user",
             userID: ws.userID,
             userName
           })
-        );
-      }
+        )
+      );
 
       console.log(userName + " login");
     } else {
       console.log(userName + " say: " + msg);
-      var obj = {
+      let data = {
         time: new Date().getTime(),
         text: msg,
         author: userName,
         color: userColor
       };
-      var json = JSON.stringify({ type: "message", data: obj });
-      for (var i = 0; i < clients.length; i++) {
-        clients[i].send(json);
-      }
+      clients.forEach(c => c.send(JSON.stringify({ type: "message", data })));
     }
   });
   ws.on("close", function() {
@@ -55,10 +52,9 @@ wss.on("connection", function(ws) {
       colors.push(userColor);
     }
 
-    var json = JSON.stringify({ type: "disconnected_user", userID: ws.userID });
-    for (var i = 0; i < clients.length; i++) {
-      clients[i].send(json);
-    }
+    clients.forEach(c =>
+      c.send(JSON.stringify({ type: "disconnected_user", userID: ws.userID }))
+    );
   });
 });
 
