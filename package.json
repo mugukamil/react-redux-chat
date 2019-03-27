@@ -1,0 +1,22 @@
+{
+  "name": "advanced-react",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd server && nodemon app.js\" \"cd client && npm start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mugukamil/react-redux-chat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mugukamil/react-redux-chat/issues"
+  },
+  "homepage": "https://github.com/mugukamil/react-redux-chat#readme",
+  "description": "",
+  "dependencies": {}
+}
